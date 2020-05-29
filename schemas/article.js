@@ -18,6 +18,10 @@ var blogSchema = new Schema({
         type: Number,
         default: 0
     },
+    commentNums: {
+        type: Number,
+        default: 0
+    },
     createTime: {
         type: Date,
         default: Date.now
