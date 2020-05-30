@@ -1,13 +1,38 @@
 const express = require('express')
 const path = require('path');
+var session = require('express-session');
 const adminRouter = require("./routers/admin")
 const blogRouter = require("./routers/blog")
 var ueditor = require("ueditor")
+
 
 const app = express()
 
 app.set('view engine', 'ejs')
 app.use(express.static('./public'))
+app.use("/uploads", express.static("./uploads"))
+
+
+// 使用 session 中间件
+app.use(session({
+    secret :  'secret', // 对session id 相关的cookie 进行签名
+    resave : true,
+    saveUninitialized: false, // 是否保存未初始化的会话
+    cookie : {
+        maxAge : 1000 * 60 * 100, // 设置 session 的有效时间，单位毫秒
+    },
+}));
+
+// 设置全局ejs变量
+app.use((req, res, next) => {
+    res.locals = {
+        isLogin: req.session.user ? true : false,
+        user: req.session.user,
+        head: req.session.head,
+        userId: req.session.userId
+    }
+    next()
+})
 
 
 //ueditor

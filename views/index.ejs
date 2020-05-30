@@ -8,18 +8,32 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">李沅锟的博客</a>
+    <a class="navbar-brand" href="/articles">李沅锟的博客</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">文章 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/articles">文章 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">关于</a>
+                <a class="nav-link" href="/about">关于</a>
             </li>
+            <li class="nav-item">
+                <% if (isLogin) { %>
+                <a class="nav-link" href="#">
+                    <img src="<%=head%>" height="32px" width="32px" alt="">
+                    <%=user%></a>
+                <% } else { %>
+                <a class="nav-link" href="/login">注册/登录</a>
+                <% } %>
+            </li>
+            <% if (isLogin) { %>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">注销登录</a>
+            </li>
+            <% } %>
         </ul>
     </div>
 </nav>

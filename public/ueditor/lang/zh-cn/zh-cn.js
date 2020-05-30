@@ -356,7 +356,7 @@ UE.I18N['zh-cn'] = {
             'videoSearchReset':{'value':"清空结果"},
 
             'lang_input_fileStatus':' 当前未上传文件',
-            'startUpload':{'style':"background:url(upload.png) no-repeat;"},
+            'startUpload':{'style':"background:url(uploads.png) no-repeat;"},
 
             'lang_upload_size':"视频尺寸",
             'lang_upload_width':"宽度",
@@ -652,7 +652,7 @@ UE.I18N['zh-cn'] = {
     'wordimage':{
         'static':{
             lang_resave:"转存步骤",
-            uploadBtn:{src:"upload.png",alt:"上传"},
+            uploadBtn:{src:"uploads.png",alt:"上传"},
             clipboard:{style:"background: url(copy.png) -153px -1px no-repeat;"},
             lang_step:"1、点击顶部复制按钮，将地址复制到剪贴板；2、点击添加照片按钮，在弹出的对话框中使用Ctrl+V粘贴地址；3、点击打开后选择图片上传流程。"
         },

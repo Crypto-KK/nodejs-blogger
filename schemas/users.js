@@ -7,7 +7,8 @@ var Schema = mongoose.Schema;
 var blogSchema = new Schema({
     user: String,
     pwd: String,
-    head: String
+    head: String,
+    role: Number
 
 });
 module.exports = blogSchema;
