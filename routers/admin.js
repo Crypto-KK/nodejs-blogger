@@ -13,31 +13,23 @@ mongoose.connect("mongodb://root:998219@127.0.0.1:27017/blogger?authSource=admin
 
 
 let Article = require("../models/Article")
+let Comment = require("../models/Comment")
 
-
-// let data = {
-//     title: "测试文章",
-//     content: "测试内容",
-//     description: "说明",
-//     readNums: 0,
-//     commentNums: 0
-// }
-// Article(data).save(err => {
-//     if (err) throw err
-//     console.log("save success")
-// })
 
 route.get("/", (req, res) => {
     // 管理文章列表页
     Article.find({}, (err, data) => {
         if (err) throw err;
-        console.log(data)
-        res.type('html');
-        res.render('admin_article_list', {
-            res: data,
-            searchName: '',
-            moment
+        Comment.find({}, (err, commentData) => {
+            res.type('html');
+            res.render('admin_article_list', {
+                res: data,
+                comments: commentData,
+                searchName: '',
+                moment
+            })
         })
+
     })
 })
 

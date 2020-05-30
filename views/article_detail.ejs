@@ -95,7 +95,7 @@
                                 <% if (isLogin) { %>
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="float: right">回复</button>
                                     <% if (userId === comments[i].userId) { %>
-                                    <button class="btn btn-danger" style="float: right">删除</button>
+                                    <button class="btn btn-danger btn-delete" data-id="<%=comments[i]._id%>" style="float: right">删除</button>
                                     <% } %>
                                 <% } %>
                                 <blockquote class="blockquote mb-0">
@@ -154,6 +154,22 @@
                 },
                 success: res => {
                     if (res.code === 200) {
+                        window.location.reload()
+                    }
+                }
+            })
+        })
+
+        $('.btn-delete').click(function () {
+            let id = $(this).attr("data-id")
+            $.post({
+                url: "/deletePost",
+                data: {
+                    commentId: id
+                },
+                success: res => {
+                    if (res.code === 200) {
+                        alert("删除成功")
                         window.location.reload()
                     }
                 }

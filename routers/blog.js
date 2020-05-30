@@ -137,7 +137,7 @@ route.post("/postComment", urlencodedParser, (req, res) => {
 
             Article.find({_id: articleId}, (err2, data) =>  {
                 // 评论数加1
-                let condition = {articleId}
+                let condition = {_id: articleId}
                 let updateCondition = {commentNums: data[0].commentNums + 1}
                 Article.updateOne(condition, updateCondition, (err, results) => {
                     if (err) throw err;
@@ -153,5 +153,18 @@ route.post("/postComment", urlencodedParser, (req, res) => {
     }
 })
 
+
+//删除评论接口
+route.post("/deletePost", urlencodedParser, (req, res) => {
+    let commentId = req.body.commentId
+    var condition = {'_id': commentId}
+    Comment.remove(condition, (err, results) => {
+        if (err) throw err
+        console.log(results)
+        res.json({
+            code: 200
+        })
+    })
+})
 
 module.exports = route;
