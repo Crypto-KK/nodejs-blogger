@@ -94,12 +94,35 @@ route.get("/articles", (req, res) => {
             Article.updateOne(condition, updateCondition, (err, results) => {
                 if (err) throw err;
                 console.log(results)
-                Comment.find({"articleId": id}, (err, commentData) => {
-                    res.render("article_detail", {
-                        res: articleData,
-                        comments: commentData,
-                        moment
+                Comment.find({"articleId": id, "isReply": false}, (err, commentData) => {
+                    Comment.find({"articleId": id, "isReply": true}, (err, replyData) => {
+                        return_comment_data = []
+                        for (let i = 0; i < commentData.length; i ++) {
+
+                            for (let j = 0; j < replyData.length; j++) {
+                                if (replyData[j].replyTo === commentData[i]._id.toString()) {
+                                    // 为评论的回复
+                                    let temp_replys = []
+                                    temp_replys.push(replyData[j])
+                                    return_comment_data.push({
+                                        comment: commentData[i],
+                                        replys: temp_replys
+                                    })
+                                }
+                            }
+                            return_comment_data.push({
+                                comment: commentData[i],
+                                replys: []
+                            })
+                        }
+                        console.log(return_comment_data)
+                        res.render("article_detail", {
+                            res: articleData,
+                            comments: return_comment_data,
+                            moment
+                        })
                     })
+
                 })
             })
 
@@ -166,5 +189,36 @@ route.post("/deletePost", urlencodedParser, (req, res) => {
         })
     })
 })
+
+// 发布评论接口
+route.post("/postReply", urlencodedParser, (req, res) => {
+    if (req.session.user) {
+        let {content, article, articleId, replyTo} = req.body
+        let user = req.session.user
+        let userId = req.session.userId
+        let isReply = true
+
+        Comment({content, articleId, article, user, userId, replyTo, isReply}).save(err => {
+            if (err) throw err
+            Article.find({_id: articleId}, (err2, data) =>  {
+                // 评论数加1
+                let condition = {_id: articleId}
+                let updateCondition = {commentNums: data[0].commentNums + 1}
+                Article.updateOne(condition, updateCondition, (err, results) => {
+                    if (err) throw err;
+                    console.log(results)
+                    res.json({code: 200, message: "success"})
+                })
+            })
+
+
+        })
+    } else {
+        res.redirect("/login")
+    }
+})
+
+
+
 
 module.exports = route;
